@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. IMPORT useNavigate
 import { auth, db } from '../src/firebase';
 import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import {
   updatePassword,
   EmailAuthProvider,
   reauthenticateWithCredential,
-  deleteUser
+  deleteUser,
+  signOut // 1. IMPORT signOut
 } from 'firebase/auth';
-import { FiUser, FiMail, FiLock, FiSettings, FiLayout, FiMap, FiBell, FiFileText, FiMapPin } from 'react-icons/fi';
+import { FiUser, FiMail, FiLock, FiSettings, FiMapPin } from 'react-icons/fi';
 
 const ProfilePage = () => {
   const user = auth.currentUser;
+  const navigate = useNavigate(); // 2. INITIALIZE useNavigate
   const [profile, setProfile] = useState({ firstName: '', lastName: '', siteLocation: '' });
   const [newPassword, setNewPassword] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
@@ -25,10 +28,13 @@ const ProfilePage = () => {
         if (docSnap.exists()) {
           setProfile(docSnap.data());
         }
+      } else {
+        // If no user is found (e.g., after a refresh), redirect to login
+        navigate('/auth');
       }
     };
     fetchProfile();
-  }, [user]);
+  }, [user, navigate]);
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
@@ -53,7 +59,7 @@ const ProfilePage = () => {
     setSuccess('');
 
     if (!currentPassword || !newPassword) {
-        return setError('Please fill in both password fields.');
+      return setError('Please fill in both password fields.');
     }
 
     try {
@@ -65,6 +71,18 @@ const ProfilePage = () => {
       setNewPassword('');
     } catch (err) {
       setError(`Failed to change password: ${err.message}`);
+    }
+  };
+
+  // 3. ADD the handleSignOut function
+  const handleSignOut = async () => {
+    setError('');
+    setSuccess('');
+    try {
+      await signOut(auth);
+      navigate('/auth'); // Redirect to login page after sign out
+    } catch (err) {
+      setError(`Failed to sign out: ${err.message}`);
     }
   };
 
@@ -81,6 +99,7 @@ const ProfilePage = () => {
       const userDocRef = doc(db, 'users', user.uid);
       await deleteDoc(userDocRef);
       await deleteUser(user);
+      // The onAuthStateChanged listener in App.jsx will handle the redirect
     } catch (err) {
       setError(`Failed to delete account: ${err.message}`);
     }
@@ -105,7 +124,6 @@ const ProfilePage = () => {
           {error && <p className="error-message">{error}</p>}
           {success && <p className="success-message" style={{textAlign:'center', color:'green'}}>{success}</p>}
 
-          {/* Edit Profile Section */}
           <div className="profile-section">
             <h3>Edit Profile</h3>
             <form onSubmit={handleProfileUpdate}>
@@ -125,8 +143,6 @@ const ProfilePage = () => {
                 <input type="email" value={user?.email || ''} readOnly disabled />
                 <label>Email</label>
               </div>
-
-              {/* Site Location Dropdown */}
               <div className="input-group">
                 <FiMapPin className="input-icon" />
                 <select
@@ -143,12 +159,10 @@ const ProfilePage = () => {
                   <option value="Aravalli Range regions (Haryana / Rajasthan)">Aravalli Range regions (Haryana / Rajasthan)</option>
                 </select>
               </div>
-
               <button type="submit" className="primary-button">Save Changes</button>
             </form>
           </div>
 
-          {/* Change Password Section */}
           <div className="profile-section">
             <h3>Change Password</h3>
             <form onSubmit={handleChangePassword}>
@@ -166,11 +180,18 @@ const ProfilePage = () => {
             </form>
           </div>
 
-          {/* Danger Zone */}
           <div className="profile-section danger-zone">
             <h3>Danger Zone</h3>
-            <p>Deleting your account is a permanent action and cannot be undone.</p>
-            <button onClick={handleDeleteAccount} className="danger-button">Delete My Account</button>
+            <p>Be careful with these actions.</p>
+            {/* 4. ADD a container for the buttons and the new Sign Out button */}
+            <div className="flex items-center justify-center gap-4 mt-4">
+  <button onClick={handleSignOut} className="primary-button bg-gray-600 hover:bg-gray-700">
+    Sign Out
+  </button>
+  <button onClick={handleDeleteAccount} className="danger-button">
+    Delete My Account
+  </button>
+</div>
           </div>
         </main>
       </div>
