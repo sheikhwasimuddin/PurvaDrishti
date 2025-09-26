@@ -1,0 +1,222 @@
+/*
+  This is the permanent fix for the "Unknown word 'use strict'" error.
+  This file should ONLY start with these three lines.
+  Do not add "@import 'tailwindcss';" here or in any other CSS file.
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+/* Custom Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.8),
+      0 0 30px rgba(59, 130, 246, 0.6);
+  }
+}
+
+/* Animation Classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-fade-in-left {
+  animation: fadeInLeft 0.8s ease-out;
+}
+
+.animate-fade-in-right {
+  animation: fadeInRight 0.8s ease-out;
+}
+
+.animate-pulse-custom {
+  animation: pulse 2s infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Custom Button Styles */
+.btn-outline {
+  border-width: 2px;
+  border-color: #2563eb; /* Tailwind blue-600 */
+  color: #2563eb; /* Tailwind blue-600 */
+  padding-left: 1.5rem; /* px-6 */
+  padding-right: 1.5rem;
+  padding-top: 0.75rem; /* py-3 */
+  padding-bottom: 0.75rem;
+  border-radius: 0.5rem; /* rounded-lg */
+  font-weight: 600; /* font-semibold */
+  transition-property: all;
+  transition-duration: 300ms;
+  transform: none;
+}
+.btn-outline:hover {
+  background-color: #2563eb; /* hover:bg-blue-600 */
+  color: #fff; /* hover:text-white */
+  transform: scale(1.05); /* hover:scale-105 */
+}
+
+/* Card Styles */
+.card {
+  background-color: #fff;
+  border-radius: 0.75rem; /* rounded-xl */
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); /* shadow-lg */
+  transition: box-shadow 300ms, transform 300ms;
+  transform: none;
+}
+.card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); /* shadow-2xl */
+  transform: translateY(-0.5rem); /* -translate-y-2 */
+}
+
+.card-gradient {
+  background-image: linear-gradient(to bottom right, #fff, #f9fafb); /* from-white to-gray-50 */
+  border-radius: 0.75rem; /* rounded-xl */
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); /* shadow-lg */
+  transition: box-shadow 300ms, transform 300ms;
+  transform: none;
+}
+.card-gradient:hover {
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); /* shadow-2xl */
+  transform: translateY(-0.5rem); /* -translate-y-2 */
+}
+
+/* Risk Level Indicators */
+.risk-low {
+  background-color: #d1fae5; /* Tailwind bg-green-100 */
+  color: #065f46;            /* Tailwind text-green-800 */
+  border: 1px solid #bbf7d0; /* Tailwind border-green-200 */}
+.risk-medium {
+  background-color: #fef3c7; /* Tailwind bg-yellow-100 */
+  color: #92400e;            /* Tailwind text-yellow-800 */
+  border: 1px solid #fde68a; /* Tailwind border-yellow-200 */}
+.risk-high {
+  background-color: #ffedd5; /* Tailwind bg-orange-100 */
+  color: #9a3412;            /* Tailwind text-orange-800 */
+  border: 1px solid #fed7aa; /* Tailwind border-orange-200 */}
+.risk-critical {
+  background-color: #fee2e2; /* Tailwind bg-red-100 */
+  color: #991b1b;            /* Tailwind text-red-800 */
+  border: 1px solid #fecaca; /* Tailwind border-red-200 */
+}
+.testimonial-card {
+  background-color: #fff;         /* Tailwind bg-white */
+  border-radius: 0.75rem;         /* Tailwind rounded-xl */
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); /* Tailwind shadow-lg */
+  padding: 2rem;                  /* Tailwind p-8 */
+  position: relative;             /* Tailwind relative */
+}
+.risk-critical {
+  background-color: #fee2e2; /* Tailwind bg-red-100 */
+  color: #991b1b;            /* Tailwind text-red-800 */
+  border: 1px solid #fecaca; /* Tailwind border-red-200 */
+}
+
+/* Custom Component Styles */
+.testimonial-card {
+  background-color: #fff;         /* Tailwind bg-white */
+  border-radius: 0.75rem;         /* Tailwind rounded-xl */
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); /* Tailwind shadow-lg */
+  padding: 2rem;                  /* Tailwind p-8 */
+  position: relative;             /* Tailwind relative */
+}
+
+
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
